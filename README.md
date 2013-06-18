@@ -5,7 +5,7 @@
 * Petar <pfo@ptmx.org>  Forai
 
 ## INFO:
-see: env_init-description.pdf
+see: env_init-description.pdf (internal documentation!)
 
 ## INSTALL:
 ### manual
