@@ -1,9 +1,5 @@
 # Cluster Environment Initialization Scripts
 
-## AUTHORS:
-* Aaron <azet@azet.org> Zauner
-* Petar <pfo@ptmx.org>  Forai
-
 ## INFO:
 see: env_init-description.pdf (internal documentation!)
 
@@ -16,6 +12,11 @@ see: env_init-description.pdf (internal documentation!)
     make install DESTDIR=/tmp/env_init-installdir
     cd /tmp
     fpm -s dir -t rpm -n env_init -v 0.1_el6 -C /tmp/env_init-installdir etc # or deb in case of ubuntu
+    
+
+## AUTHORS:
+* Aaron <azet@azet.org> Zauner
+* Petar <pfo@ptmx.org>  Forai
 
 ## LICENSE/REDISTRIBUTION:
 MIT License (http://opensource.org/licenses/MIT)
@@ -23,7 +24,7 @@ MIT License (http://opensource.org/licenses/MIT)
 ```
 The MIT License (MIT)
 
-Copyright (c) 2013 Gregor Mendel Institure of Molecular Plant Biology GmbH
+Copyright (c) 2013 Gregor Mendel Institute of Molecular Plant Biology GmbH
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
