@@ -1,0 +1,25 @@
+#!/bin/sh
+# determine unique linux distribution release string
+distroname() { 
+	local RELSTRING
+	local release
+	release=`grep 'SUSE\|Ubuntu\|Red Hat\|CentOS' -A10 -B10 /etc/*release | tr '[:upper:]' '[:lower:]'`
+	case $release in
+		*suse*version*11*patchlevel*0) RELSTRING=sles11sp0 ;;
+		*suse*version*11*patchlevel*1) RELSTRING=sles11sp1 ;;
+		*suse*version*11*patchlevel*2) RELSTRING=sles11sp2 ;;
+		*suse*version*11*patchlevel*3) RELSTRING=sles11sp3 ;;
+		*suse*version*11*patchlevel*4) RELSTRING=sles11sp4 ;;
+		*ubuntu*12.04*) RELSTRING=ubuntu12.04 ;;
+		*red\ hat*6.1*) RELSTRING=rhel6.1 ;;
+		*red\ hat*6.2*) RELSTRING=rhel6.2 ;;
+		*red\ hat*6.3*) RELSTRING=rhel6.3 ;;
+		*red\ hat*6.4*) RELSTRING=rhel6.4 ;;
+		*centos*6.2*) RELSTRING=centos6.2 ;;
+		*centos*6.3*) RELSTRING=centos6.3 ;;
+		*centos*6.4*) RELSTRING=centos6.4 ;;
+		*) fail "unkown distribution" $0 ${LINENO} $? ;;
+	esac ; echo $RELSTRING
+}
+
+export BC_LINUX_DIST=$(distroname)

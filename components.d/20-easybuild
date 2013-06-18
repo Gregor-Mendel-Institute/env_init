@@ -1,0 +1,17 @@
+#!/bin/sh
+# easybuild environment
+easybuild_setup() {
+   {  export MODULEPATH=/net/gmi.oeaw.ac.at/software/$(distroname)/modules/all:$MODULEPATH 
+	  PYLIB=`python -c "import distutils.sysconfig; print distutils.sysconfig.get_python_lib(prefix='$HOME/.local'); "`
+      mkdir -p $PYLIB
+      export PYTHONPATH=$PYLIB:$HOME/.local:$PYTHONPATH
+
+      # this is needed on Ubuntu to fix the multi-lib GCC bootstrap issue.
+      [[ $BC_LINUX_DIST == *"ubuntu"* ]] && export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
+
+      export PATH=$PATH:$HOME/.local/bin:/usr/share/Modules/bin
+   } || fail "failed to initialize environment for easybuild" $0 ${LINENO} $?
+}
+
+# support easybuild per default. if logged in as user easybuild, then autoload the environment
+#[ $USER = "easybuild" ] && easybuild_setup 

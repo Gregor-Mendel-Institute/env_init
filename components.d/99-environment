@@ -1,0 +1,114 @@
+#!/bin/sh
+# environment variables to be exported
+
+# SGI ICE-X / VIS / Workstation specific environment settings
+# guidelines see: https://hpcbios.readthedocs.org/en/latest/HPCBIOS_2012-98.html
+
+# HPC site
+export BC_HPC_SITE=GMI
+
+# assign predefined distribution string
+export BC_LINUX_DIST=$(distroname)
+
+# path for distribution/site specific mirroring
+export MIRRORPATH=/net/gmi.oeaw.ac.at/software/${BC_LINUX_DIST}/mirror/
+
+# currently undefined environment variables 
+#export TMPDIR=nil # set by PBS Pro
+#export BC_MPI_TASKS_ALLOC and BC_MPI_ALLOC via user script
+#export JAVA_HOME=nil # set by user
+#export HOME # set by system/ldap/...
+
+# reflect three env_init deployments atm.: mendel, vis, linux workstation:
+case `dnsdomainname` in
+	*ice*|*mendel*)
+		export BC_CORES_PER_NODE=16
+		export BC_MEM_PER_NODE=65536
+		export BC_CPUTYPE=intel-x86_64-sandybridge-avx 
+		export BC_HPC_SYSTEM=Mendel
+		export SCRATCH=/lustre/scratch
+		export WORK=$SCRATCH/users/$USER/
+		export WORKDIR=$SCRATCH/users/$USER/
+		export SAMPLES_HOME=/net/gmi.oeaw.ac.at/software/samples
+		export SOFT_HOME=/net/gmi.oeaw.ac.at/software/mendel/${BC_CPUTYPE}
+
+		# source module environment (if not logged in as build user)
+		if [ $USER != "easybuild" ]; then
+			export MODULEPATH="${SOFT_HOME}/../syscommon:\
+							   ${SOFT_HOME}/modules/vis:\
+							   ${SOFT_HOME}/modules/tools:\
+							   ${SOFT_HOME}/modules/toolchain:\
+							   ${SOFT_HOME}/modules/system:\
+							   ${SOFT_HOME}/modules/numlib:\
+							   ${SOFT_HOME}/modules/mpi:\
+							   ${SOFT_HOME}/modules/math:\
+							   ${SOFT_HOME}/modules/lib:\
+							   ${SOFT_HOME}/modules/lang:\
+							   ${SOFT_HOME}/modules/base:\
+							   ${SOFT_HOME}/modules/devel:\
+							   ${SOFT_HOME}/modules/debugger:\
+							   ${SOFT_HOME}/modules/data:\
+							   ${SOFT_HOME}/modules/compiler:\
+							   ${SOFT_HOME}/modules/bio"
+		fi
+		# load standard environment
+		module load std_env
+	;;
+	*vis*)
+		export BC_CORES_PER_NODE=32
+		export BC_MEM_PER_NODE=258258
+		export BC_CPUTYPE=intel-x86_64-sandybridge-avx 
+		export BC_HPC_SYSTEM=VIS
+		export SCRATCH=/lustre/scratch
+		export WORK=$SCRATCH/users/$USER/
+		export WORKDIR=$SCRATCH/users/$USER/
+		export SAMPLES_HOME=/net/gmi.oeaw.ac.at/software/samples
+		export SOFT_HOME=/net/gmi.oeaw.ac.at/software/mendel/${BC_CPUTYPE}
+
+		# source module environment (if not logged in as build user)
+		if [ $USER != "easybuild" ]; then
+			export MODULEPATH="${SOFT_HOME}/../syscommon:\
+							   ${SOFT_HOME}/modules/vis:\
+							   ${SOFT_HOME}/modules/tools:\
+							   ${SOFT_HOME}/modules/toolchain:\
+							   ${SOFT_HOME}/modules/system:\
+							   ${SOFT_HOME}/modules/numlib:\
+							   ${SOFT_HOME}/modules/mpi:\
+							   ${SOFT_HOME}/modules/math:\
+							   ${SOFT_HOME}/modules/lib:\
+							   ${SOFT_HOME}/modules/lang:\
+							   ${SOFT_HOME}/modules/base:\
+							   ${SOFT_HOME}/modules/devel:\
+							   ${SOFT_HOME}/modules/debugger:\
+							   ${SOFT_HOME}/modules/data:\
+							   ${SOFT_HOME}/modules/compiler:\
+							   ${SOFT_HOME}/modules/bio"
+		fi
+		# load standard environment
+		module load std_env
+	;;
+	*) # assume workstation
+		export BC_CORES_PER_NODE=nil
+		export BC_MEM_PER_NODE=nil
+		export BC_CPUTYPE=nil
+		export BC_HPC_SYSTEM=LWS
+		export SCRATCH=nil
+		export WORK=nil
+		export WORKDIR=nil
+		export BC_CPUTYPE=nil 
+		export SOFT_HOME=/net/gmi.oeaw.ac.at/software/${BC_LINUX_DIST}
+
+		# source module environment (if not logged in as build user)
+		if [ $USER != "easybuild" ]; then
+			export MODULEPATH="${SOFT_HOME}/modules/base:\
+							   ${SOFT_HOME}/modules/math:\
+							   ${SOFT_HOME}/modules/bio:\
+							   ${SOFT_HOME}/modules/compiler:\
+							   ${SOFT_HOME}/modules/lib:\
+							   /usr/local/Modules/modulefiles/Linux:\
+							   /usr/local/Modules/modulefiles/Core"
+		fi
+	;;
+esac
+
+# EOF

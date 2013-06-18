@@ -1,0 +1,8 @@
+#!/bin/sh
+# Envorionment Modules
+
+if [ $load_lmod == 0 ]; then 
+	# only bash support for now
+	[ -f $modules_classic_init ] || fail "environment modules (classic) init script not found" $0 ${LINENO} $?
+	. $modules_classic_init
+fi

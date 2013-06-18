@@ -1,0 +1,7 @@
+#!/bin/sh
+# Lmod (Lua Environment Modules)
+
+if [ $load_lmod -gt 0 ]; then
+	[ -f $modules_lmod_init ] || fail "environment modules (lmod) init script not found" $0 ${LINENO} $?
+	. $modules_lmod_init
+fi
