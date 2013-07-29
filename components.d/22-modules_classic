@@ -1,5 +1,5 @@
 #!/bin/sh
-# Envorionment Modules
+# Environment Modules
 
 if [ $load_lmod == 0 ]; then 
 	# only bash support for now
