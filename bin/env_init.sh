@@ -24,6 +24,11 @@ fail() {
 #   fail "custom message" $0 ${LINENO} $?
 ###########################################################################
 
+# exit for root login shells or if already initialised
+###########################################################################
+[[ `id -u` -eq 0 ]] && return
+[[ $__env_init__complete ]] && return
+
 # source configuration files and components (modular functions/variables)
 ###########################################################################
 [ -d /etc/env_init/conf.d ] || fail "no conf.d directory found" $0 ${LINENO} $?
@@ -38,6 +43,7 @@ for k in `ls /etc/env_init/components.d`; do
 		. /etc/env_init/components.d/$k 
 	} || fail "failed to load component '$k'" $0 ${LINENO} $?
 done
+export __env_init__complete=1
 ###########################################################################
 
 #EOF
